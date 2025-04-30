@@ -1,0 +1,784 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดสินค้า | JKD Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/product-detail.css' %}">
+</head>
+<body>
+    <style>
+        :root {
+    --primary: #3c6382;
+    --primary-dark: #2c3e50;
+    --accent: #27ae60;
+    --accent-light: #2ecc71;
+    --light-bg: #f8f9fa;
+    --dark-text: #2c3e50;
+    --light-text: #7f8c8d;
+    --border-radius: 16px;
+}
+
+body {
+    background-color: var(--light-bg);
+    font-family: 'Prompt', sans-serif;
+    color: var(--dark-text);
+    padding-bottom: 3rem;
+}
+
+/* Top banner */
+.product-banner {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    padding: 3rem 0 8rem;
+    margin-bottom: -6rem;
+    color: white;
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.breadcrumb-item a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: white;
+}
+
+.breadcrumb-item.active {
+    color: white;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Product content */
+.product-detail-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    overflow: hidden;
+}
+
+.product-content {
+    padding: 2.5rem;
+}
+
+.product-image-container {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.product-image-wrapper {
+    position: relative;
+    height: 0;
+    padding-bottom: 75%; /* Aspect ratio */
+    overflow: hidden;
+}
+
+.product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.product-image:hover {
+    transform: scale(1.03);
+}
+
+.product-tags {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+}
+
+.product-tag {
+    background-color: var(--accent);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.product-title {
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.product-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    border-radius: 2px;
+}
+
+.product-meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: var(--light-text);
+    font-size: 0.95rem;
+}
+
+.product-meta div {
+    margin-right: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.product-meta i {
+    margin-right: 0.5rem;
+    color: var(--primary);
+}
+
+.product-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--dark-text);
+    margin-bottom: 2rem;
+    position: relative;
+    padding-left: 1rem;
+    border-left: 3px solid #e9ecef;
+}
+
+.product-attributes {
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.attribute-title {
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.attribute-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.attribute-list li {
+    width: 50%;
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.attribute-list i {
+    color: var(--accent);
+    margin-right: 0.75rem;
+}
+
+.pricing-section {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: linear-gradient(to right, #f9f9f9, #ffffff);
+    border-radius: var(--border-radius);
+    border: 1px solid #eee;
+}
+
+.product-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: flex;
+    align-items: baseline;
+}
+
+.currency {
+    font-size: 1.2rem;
+    margin-right: 0.25rem;
+}
+
+.price-note {
+    font-size: 0.9rem;
+    color: var(--light-text);
+    margin-top: 0.25rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-back {
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark-text);
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.btn-back:hover {
+    background-color: #f8f9fa;
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.btn-cart {
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600; /* เปลี่ยนเป็นน้ำหนักตัวอักษรที่หนาขึ้น */
+    font-size: 1rem; /* เพิ่มขนาดตัวอักษรให้ใหญ่ขึ้น */
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, var(--accent), var(--accent-light));
+    border: none;
+    color: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* เพิ่มเงาเล็กน้อยเพื่อให้ปุ่มดูมีมิติ */
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เมื่อโฮเวอร์ไปที่ปุ่ม */
+}
+
+.btn-cart:hover {
+    background: linear-gradient(to right, var(--accent-light), var(--accent)); /* สลับสีเมื่อโฮเวอร์ */
+    transform: translateY(-2px); /* เพิ่มการยกปุ่มขึ้นเล็กน้อย */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* เงาที่ชัดเจนขึ้นเมื่อโฮเวอร์ */
+}
+
+
+.btn-back i, .btn-cart i {
+    margin-right: 0.5rem;
+}
+
+/* Additional information */
+.additional-info {
+    margin-top: 2rem;
+}
+
+.info-tabs {
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 1.5rem;
+}
+
+.info-tabs .nav-link {
+    border: none;
+    color: var(--light-text);
+    position: relative;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+}
+
+.info-tabs .nav-link.active {
+    color: var(--primary);
+    background-color: transparent;
+}
+
+.info-tabs .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--primary);
+    border-radius: 3px 3px 0 0;
+}
+
+/* Related products section */
+.related-products {
+    margin-top: 3rem;
+}
+
+.section-title {
+    position: relative;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    border-radius: 2px;
+}
+
+.related-product-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.related-product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.related-product-img {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.related-product-body {
+    padding: 1.25rem;
+}
+
+.related-product-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    color: var(--dark-text);
+}
+
+.related-product-price {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.btn-view {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    background-color: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    transition: all 0.3s ease;
+}
+
+.btn-view:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-wishlist {
+    background: none;
+    border: none;
+    color: var(--light-text);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    padding: 0.25rem 0.5rem;
+    border-radius: 50%;
+}
+
+.btn-wishlist:hover {
+    color: #e74c3c;
+    transform: scale(1.1);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .product-banner {
+        padding: 2rem 0 6rem;
+        margin-bottom: -4rem;
+    }
+    
+    .product-content {
+        padding: 1.5rem;
+    }
+    
+    .product-title {
+        font-size: 1.8rem;
+    }
+    
+    .attribute-list li {
+        width: 100%;
+    }
+    
+    .pricing-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .action-buttons {
+        width: 100%;
+    }
+    
+    .btn-back, .btn-cart {
+        flex: 1;
+    }
+}
+    </style>
+    <!-- Product Banner -->
+    <div class="product-banner">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">หน้าหลัก</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'store' %}">สินค้า</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="product-detail-container">
+                    <div class="row">
+                        <!-- Product Image -->
+                        <div class="col-lg-6 p-0">
+                            <div class="product-image-container">
+                                <div class="product-image-wrapper">
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                                    {% else %}
+                                        <img src="{% static 'images/no-image.png' %}" alt="ไม่มีรูป" class="product-image">
+                                    {% endif %}
+                                </div>
+                                <div class="product-tags">
+                                    <span class="product-tag">สินค้าใหม่</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product Details -->
+                        <div class="col-lg-6">
+                            <div class="product-content">
+                                <h1 class="product-title">{{ product.name }}</h1>
+                                
+                                <div class="product-meta">
+                                    <div>
+                                        <i class="fas fa-barcode"></i>
+                                        <span>รหัส: JKD-{{ product.id }}</span>
+                                    </div>
+                                    <div>
+                                        <i class="fas fa-box"></i>
+                                        <span>มีสินค้า</span>
+                                    </div>
+                                </div>
+                                
+                                <p class="product-description">{{ product.description }}</p>
+                                
+                                <div class="product-attributes">
+                                    <h3 class="attribute-title">คุณสมบัติ</h3>
+                                    <ul class="attribute-list">
+                                        <li><i class="fas fa-check-circle"></i> คุณภาพสูง</li>
+                                        <li><i class="fas fa-check-circle"></i> รับประกัน 1 ปี</li>
+                                        <li><i class="fas fa-check-circle"></i> จัดส่งฟรีทั่วประเทศ</li>
+                                        <li><i class="fas fa-check-circle"></i> ผ่านการตรวจสอบ</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="pricing-section">
+                                    <div>
+                                        <div class="product-price">
+                                            <span class="currency">฿</span>{{ product.price }}
+                                        </div>
+                                        <div class="price-note">รวมภาษีมูลค่าเพิ่มแล้ว</div>
+                                    </div>
+                                    
+                                    <div class="action-buttons">
+                                        <a href="{% url 'store' %}" class="btn btn-back">
+                                            <i class="fas fa-arrow-left"></i> กลับ
+                                        </a>
+                                        <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-cart">
+                                              <i class="fas fa-shopping-cart"></i> หยิบใส่ตะกร้า
+                                            </button>
+                                          </form>
+                                          
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional Information -->
+                <div class="additional-info">
+                    <ul class="nav nav-tabs info-tabs" id="productTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">รายละเอียดเพิ่มเติม</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab">การจัดส่ง</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">รีวิวจากลูกค้า</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="productTabsContent">
+                        <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+                            <p>{{ product.description }}</p>
+                            <p>สินค้าคุณภาพเยี่ยมจาก JKD Store ที่คัดสรรมาเพื่อลูกค้าคนสำคัญ ผลิตจากวัสดุคุณภาพสูง ทนทานต่อการใช้งาน ออกแบบอย่างพิถีพิถัน เพื่อการใช้งานที่สะดวกสบาย</p>
+                        </div>
+                        <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
+                            <p>จัดส่งฟรีเมื่อสั่งซื้อครบ 1,000 บาท</p>
+                            <p>บริการจัดส่งด่วนภายใน 1-2 วันทำการ</p>
+                        </div>
+                        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                            <p>ยังไม่มีรีวิวสำหรับสินค้านี้</p>
+                        </div>
+                    </div>
+                </div>
+                
+  <!-- Related Products -->
+<div class="related-products">
+    <h3 class="section-title">สินค้าที่เกี่ยวข้อง</h3>
+    <div class="row">
+        {% for related in related_products %}
+        <div class="col-md-4 mb-4">
+            <div class="related-product-card">
+                {% if related.image %}
+                    <img src="{{ related.image.url }}" class="related-product-img" alt="{{ related.name }}">
+                {% else %}
+                    <img src="{% static 'images/no-image.png' %}" class="related-product-img" alt="{{ related.name }}">
+                {% endif %}
+                <div class="related-product-body">
+                    <h5 class="related-product-title">{{ related.name }}</h5>
+                    <p class="related-product-price">฿{{ related.price }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <a href="{% url 'product_detail' related.id %}" class="btn btn-view">ดูรายละเอียด</a>
+                        <button class="btn-wishlist"><i class="fas fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>ไม่มีสินค้าที่เกี่ยวข้องในขณะนี้</p>
+        {% endfor %}
+    </div>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/product-detail.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // ฟังก์ชันสำหรับเพิ่มสินค้าลงตะกร้า
+    const addToCartBtn = document.querySelector('.btn-cart');
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', function() {
+            // ดึงข้อมูลสินค้า
+            const productName = document.querySelector('.product-title').textContent;
+            const productPrice = document.querySelector('.product-price').textContent.slice(1); // ตัด ฿ ออก
+            const productId = document.querySelector('.product-meta span').textContent.split('-')[1];
+            
+            // สร้าง animation เมื่อกดปุ่ม
+            this.classList.add('btn-adding');
+            
+            // สร้างข้อความแจ้งเตือน
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success fade show position-fixed top-0 start-50 translate-middle-x mt-4';
+            alertDiv.style.zIndex = '1050';
+            alertDiv.role = 'alert';
+            alertDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <div>เพิ่ม ${productName} ลงในตะกร้าแล้ว</div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // สร้าง animation สินค้าบินเข้าตะกร้า
+            const productImg = document.querySelector('.product-image').cloneNode(true);
+            productImg.style.position = 'fixed';
+            productImg.style.width = '100px';
+            productImg.style.height = '100px';
+            productImg.style.objectFit = 'cover';
+            productImg.style.borderRadius = '50%';
+            productImg.style.zIndex = 1000;
+            productImg.style.opacity = '0.8';
+            productImg.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+            
+            // ตำแหน่งเริ่มต้น
+            const startRect = document.querySelector('.product-image').getBoundingClientRect();
+            productImg.style.top = startRect.top + 'px';
+            productImg.style.left = startRect.left + 'px';
+            
+            document.body.appendChild(productImg);
+            
+            // ตำแหน่งปลายทาง (สมมติว่ามีตะกร้าอยู่มุมบนขวา)
+            const endTop = '20px';
+            const endLeft = window.innerWidth - 70 + 'px';
+            
+            // สร้าง animation
+            setTimeout(function() {
+                productImg.style.transition = 'all 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28)';
+                productImg.style.top = endTop;
+                productImg.style.left = endLeft;
+                productImg.style.width = '30px';
+                productImg.style.height = '30px';
+                productImg.style.opacity = '0';
+            }, 100);
+            
+            // ลบ element เมื่อ animation เสร็จสิ้น
+            setTimeout(function() {
+                document.body.removeChild(productImg);
+                addToCartBtn.classList.remove('btn-adding');
+                
+                // อัพเดท counter บนไอคอนตะกร้า (ถ้ามี)
+                const cartCounter = document.querySelector('.cart-counter');
+                if (cartCounter) {
+                    const currentCount = parseInt(cartCounter.textContent || '0');
+                    cartCounter.textContent = currentCount + 1;
+                }
+                
+            }, 1000);
+            
+            // ลบการแจ้งเตือนหลังจาก 3 วินาที
+            setTimeout(function() {
+                if (alertDiv.parentNode) {
+                    alertDiv.classList.add('fade');
+                    setTimeout(() => document.body.removeChild(alertDiv), 500);
+                }
+            }, 3000);
+        });
+    }
+    
+    // จัดการปุ่มชอบ (wishlist)
+    const wishlistBtns = document.querySelectorAll('.btn-wishlist');
+    wishlistBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('text-muted')) {
+                icon.classList.remove('text-muted');
+                icon.classList.add('text-danger');
+            } else {
+                icon.classList.add('text-muted');
+                icon.classList.remove('text-danger');
+            }
+            
+            // Effect เมื่อกดปุ่ม
+            this.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+    });
+    
+    // Image zoom effect
+    const productImage = document.querySelector('.product-image');
+    const imageContainer = document.querySelector('.product-image-container');
+    
+    if (productImage && imageContainer) {
+        imageContainer.addEventListener('mousemove', function(e) {
+            const {left, top, width, height} = this.getBoundingClientRect();
+            
+            // คำนวณตำแหน่ง cursor ภายใน container (0-1)
+            const x = (e.clientX - left) / width;
+            const y = (e.clientY - top) / height;
+            
+            // เปลี่ยน origin point ของรูปเพื่อ zoom ตามตำแหน่ง cursor
+            productImage.style.transformOrigin = `${x * 100}% ${y * 100}%`;
+            productImage.style.transform = 'scale(1.5)';
+        });
+        
+        imageContainer.addEventListener('mouseleave', function() {
+            productImage.style.transform = 'scale(1)';
+            productImage.style.transformOrigin = 'center center';
+        });
+    }
+    
+    // Size selection
+    const sizeButtons = document.querySelectorAll('.size-option');
+    if (sizeButtons.length > 0) {
+        sizeButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // ลบ active ออกจากทุกปุ่ม
+                sizeButtons.forEach(b => b.classList.remove('active'));
+                // เพิ่ม active ให้ปุ่มที่กด
+                this.classList.add('active');
+            });
+        });
+    }
+    
+    // Color selection
+    const colorOptions = document.querySelectorAll('.color-option');
+    if (colorOptions.length > 0) {
+        colorOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // ลบ active ออกจากทุกตัวเลือก
+                colorOptions.forEach(o => o.classList.remove('selected'));
+                // เพิ่ม active ให้ตัวเลือกที่กด
+                this.classList.add('selected');
+                
+                // อัพเดทรูปภาพสินค้าตามสีที่เลือก (ถ้ามี)
+                const colorImage = this.getAttribute('data-image');
+                if (colorImage && productImage) {
+                    productImage.src = colorImage;
+                }
+            });
+        });
+    }
+    
+    // Quantity buttons
+    const minusBtn = document.querySelector('.btn-minus');
+    const plusBtn = document.querySelector('.btn-plus');
+    const quantityInput = document.querySelector('.quantity-input');
+    
+    if (minusBtn && plusBtn && quantityInput) {
+        minusBtn.addEventListener('click', function() {
+            let value = parseInt(quantityInput.value);
+            if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+        
+        plusBtn.addEventListener('click', function() {
+            let value = parseInt(quantityInput.value);
+            quantityInput.value = value + 1;
+        });
+        
+        quantityInput.addEventListener('change', function() {
+            let value = parseInt(this.value);
+            if (isNaN(value) || value < 1) {
+                this.value = 1;
+            }
+        });
+    }
+});
+    </script>
+</body>
+</html>

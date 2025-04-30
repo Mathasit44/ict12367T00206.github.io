@@ -1,0 +1,405 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKD Store | แก้ไขสินค้า: {{ product.name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            color: white;
+            font-weight: 600;
+            font-size: 1.5rem;
+            padding-left: 10px;
+        }
+        
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .breadcrumb {
+            background-color: transparent;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb-item a {
+            color: #4b6cb7;
+            text-decoration: none;
+        }
+        
+        .page-title {
+            border-left: 5px solid #4b6cb7;
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            font-weight: 500;
+            padding: 15px 20px;
+            border-bottom: none;
+        }
+        
+        .form-label {
+            color: #495057;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #4b6cb7;
+            box-shadow: 0 0 0 0.2rem rgba(75, 108, 183, 0.25);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #3b5ba6 0%, #0e1a36 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-preview {
+            border-radius: 8px;
+            border: 2px dashed #ced4da;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .image-preview img {
+            max-height: 200px;
+            border-radius: 6px;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        footer p {
+            margin-bottom: 0;
+        }
+        
+        .help-text {
+            color: #6c757d;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        
+        .input-icon {
+            position: relative;
+        }
+        
+        .input-icon i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 15px;
+            color: #6c757d;
+        }
+        
+        .input-icon input {
+            padding-right: 40px;
+        }
+        
+        .form-check-input:checked {
+            background-color: #4b6cb7;
+            border-color: #4b6cb7;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Section -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-store me-2"></i> JKD Store
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_dashboard' %}">
+                        <i class="fas fa-chart-line me-1"></i> แดชบอร์ด
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'admin_manage_product' %}">
+                        <i class="fas fa-box-open me-1"></i> จัดการสินค้า
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-clipboard-list me-1"></i> คำสั่งซื้อ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-cog me-1"></i> ตั้งค่า
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Breadcrumb & Title Section -->
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'admin_dashboard' %}">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'admin_manage_product' %}">จัดการสินค้า</a></li>
+            <li class="breadcrumb-item active" aria-current="page">แก้ไขสินค้า</li>
+        </ol>
+    </nav>
+    
+    <h1 class="page-title">แก้ไขสินค้า: <span class="text-primary">{{ product.name }}</span></h1>
+</div>
+
+<!-- Main Content Section -->
+<div class="container my-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Product Edit Form -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-edit me-2"></i> ข้อมูลสินค้า
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">ชื่อสินค้า</label>
+                            <div class="input-icon">
+                                {{ form.name|add_class:"form-control"|attr:"placeholder:กรอกชื่อสินค้า" }}
+                                <i class="fas fa-tag"></i>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="price" class="form-label">ราคา (บาท)</label>
+                                <div class="input-icon">
+                                    {{ form.price|add_class:"form-control"|attr:"placeholder:0.00" }}
+                                    <i class="fas fa-baht-sign"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="stock" class="form-label">จำนวนคงเหลือ</label>
+                                <div class="input-icon">
+                                    {{ form.stock|add_class:"form-control"|attr:"placeholder:0" }}
+                                    <i class="fas fa-boxes-stacked"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="description" class="form-label">คำอธิบายสินค้า</label>
+                            {{ form.description|add_class:"form-control"|attr:"rows:5"|attr:"placeholder:รายละเอียดสินค้า..." }}
+                            <div class="help-text">อธิบายรายละเอียดของสินค้าเพื่อให้ลูกค้าเข้าใจมากขึ้น</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">สถานะสินค้า</label>
+                            <div class="form-check">
+                                {{ form.is_active|add_class:"form-check-input" }}
+                                <label class="form-check-label" for="is_active">เปิดให้แสดงสินค้า</label>
+                            </div>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="mb-4">
+                            <label for="image" class="form-label">รูปภาพสินค้า</label>
+                            
+                            <!-- Image Preview -->
+                            {% if product.image %}
+                            <div class="image-preview mb-3">
+                                <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+                            </div>
+                            {% endif %}
+                            
+                            <div class="input-group">
+                                {{ form.image|add_class:"form-control" }}
+                                <span class="input-group-text"><i class="fas fa-image"></i></span>
+                            </div>
+                            <div class="help-text">แนะนำขนาดภาพ 1200 x 1200 พิกเซล (รองรับไฟล์ .jpg, .png)</div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'admin_manage_product' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>ย้อนกลับ
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>บันทึกการแก้ไข
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <!-- Product Info Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-2"></i> ข้อมูลเพิ่มเติม
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            วันที่สร้าง
+                            <span class="text-muted">{{ product.created_at|date:"d/m/Y H:i" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            แก้ไขล่าสุด
+                            <span class="text-muted">{{ product.updated_at|date:"d/m/Y H:i" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            ยอดขาย
+                            <span class="badge bg-primary rounded-pill">{{ product.sold_count|default:"0" }} ชิ้น</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Tips Card -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-lightbulb me-2"></i> คำแนะนำ
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        ตั้งชื่อสินค้าให้กระชับและเข้าใจง่าย
+                    </p>
+                    <p class="card-text">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        อัพโหลดรูปที่มีคุณภาพสูงและเห็นสินค้าชัดเจน
+                    </p>
+                    <p class="card-text">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        เขียนคำอธิบายสินค้าให้ครบถ้วนเพื่อเพิ่มโอกาสในการขาย
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer class="text-center py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="mb-3">JKD Store | ระบบจัดการร้านค้า</h5>
+                <p class="mb-0">© 2025 JKD Store. สงวนลิขสิทธิ์ทุกประการ</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Preview uploaded image before submit
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.querySelector('input[type="file"]');
+        const previewContainer = document.querySelector('.image-preview');
+        
+        if (imageInput && previewContainer) {
+            imageInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        if (!previewContainer.querySelector('img')) {
+                            const img = document.createElement('img');
+                            img.classList.add('img-fluid');
+                            previewContainer.appendChild(img);
+                        }
+                        previewContainer.querySelector('img').src = e.target.result;
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

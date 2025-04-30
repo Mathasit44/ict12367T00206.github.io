@@ -1,0 +1,685 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+    <!-- เชื่อมโยง Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- เพิ่ม Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ปรับปรุงการตั้งค่าให้เหมาะสม */
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #f8f9fc;
+            --accent-color: #36b9cc;
+            --text-color: #3a3b45;
+            --light-text: #858796;
+            --bg-color: #e9ecef;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Product Section */
+        .product-section {
+            padding: 3rem 0;
+            background-color: var(--secondary-color);
+        }
+
+        .product-header {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* Product List */
+        .list-group {
+            padding-left: 0;
+        }
+
+        .list-group-item {
+            border-radius: 0.8rem;
+            margin-bottom: 1rem;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            padding: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+        }
+
+        .list-group-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background-color: white;
+            border-radius: 0.8rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-text {
+            font-size: 1.2rem;
+            color: var(--light-text);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #2c3e50, #1a252f);
+            color: white;
+            padding: 3rem 0;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links li {
+            margin: 0 1rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 0 0.5rem;
+            color: white;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Navbar Styles */
+        .zotac-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0;
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand {
+            padding: 0 20px;
+            margin-right: 30px;
+        }
+        
+        .navbar-brand img {
+            height: 28px;
+        }
+        
+        .navbar-brand-text {
+            font-family: 'Raleway', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #555;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .main-menu {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .main-menu .nav-item {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .main-menu .nav-link {
+            color: #666;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+            padding: 0 15px !important;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .main-menu .nav-link:hover {
+            color: #000;
+        }
+        
+        .right-menu {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .right-menu .nav-link {
+            color: #777;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 15px !important;
+        }
+        
+        .language-selector {
+            font-family: 'Raleway', sans-serif;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            color: #777;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .search-icon {
+            margin-left: 10px;
+            font-size: 18px;
+            color: #777;
+            cursor: pointer;
+        }
+        
+        .dropdown-menu {
+            border-radius: 0;
+            margin-top: 0;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 10px 0;
+        }
+        
+        .dropdown-item {
+            font-size: 14px;
+            padding: 8px 20px;
+            color: #555;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        @media (max-width: 992px) {
+            .zotac-navbar {
+                height: auto;
+                padding: 15px 0;
+            }
+            
+            .navbar-brand {
+                margin-bottom: 15px;
+            }
+            
+            .main-menu, .right-menu {
+                flex-direction: column;
+                align-items: flex-start;
+                height: auto;
+            }
+            
+            .main-menu .nav-item, .right-menu .nav-item {
+                height: auto;
+                width: 100%;
+            }
+            
+            .main-menu .nav-link, .right-menu .nav-link {
+                padding: 10px 0 !important;
+                height: auto;
+            }
+            
+            .right-menu {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+        }
+
+   
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg zotac-navbar">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <!-- โลโก้หรือข้อความ -->
+                <span class="navbar-brand-text">JKD Store</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav main-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'store' %}">ร้านค้า</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">เกี่ยวกับเรา</a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav right-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="">SUPPORT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">WHERE TO BUY</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle language-selector" href="#" role="button" data-bs-toggle="dropdown">
+                            <span>🌐 GLOBAL - TH</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="switchLanguage('th')">🇹🇭 ไทย</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="switchLanguage('en')">🇬🇧 English</a></li>
+                        </ul>
+                    </li>
+                    
+                    {% if user.is_authenticated %}
+                    <!-- ถ้าผู้ใช้ล็อกอินแล้ว -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            โปรไฟล์
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">ดูโปรไฟล์</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">ออกจากระบบ</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <!-- ถ้าผู้ใช้ยังไม่ได้ล็อกอิน -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            บัญชีของฉัน
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'login' %}">เข้าสู่ระบบ</a></li>
+                            <li><a class="dropdown-item" href="{% url 'register' %}">สมัครสมาชิก</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{% url 'cart' %}">
+                            <i class="fas fa-shopping-cart"></i> ตะกร้า
+                            {% if cart_items_count > 0 %}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ cart_items_count }}
+                                <span class="visually-hidden">สินค้าที่อยู่ในตะกร้า</span>
+                            </span>
+                            {% endif %}
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="nav-item">
+                        <a class="nav-link search-icon" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+<!-- Main Content -->
+<div class="container mt-5">
+    <div class="products-container">
+        <!-- Header with Search & Filter -->
+        <div class="products-header d-flex justify-content-between align-items-center">
+            <h2 class="page-title mb-0">สินค้าที่มีจำหน่าย</h2>
+            <div class="search-filter-container d-flex align-items-center">
+                <!-- Search Box -->
+                <div class="search-box d-flex align-items-center me-3">
+                    <i class="fas fa-search text-muted"></i>
+                    <input type="text" class="form-control" placeholder="ค้นหาสินค้า...">
+                </div>
+                <!-- Sort Filter Dropdown -->
+                <div class="filter-dropdown dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-sort me-1"></i> เรียงลำดับ
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                        <li><a class="dropdown-item" href="#">ราคา: ต่ำไปสูง</a></li>
+                        <li><a class="dropdown-item" href="#">ราคา: สูงไปต่ำ</a></li>
+                        <li><a class="dropdown-item" href="#">ชื่อ: A-Z</a></li>
+                        <li><a class="dropdown-item" href="#">ชื่อ: Z-A</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Product Table -->
+        {% if products %}
+        <table class="table table-striped table-hover mt-4">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 120px;">รูปสินค้า</th>
+                    <th scope="col">ชื่อสินค้า</th>
+                    <th scope="col" style="width: 150px;">ราคา</th>
+                    <th scope="col" style="width: 180px;">รายละเอียด</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image img-fluid">
+                        {% else %}
+                        <img src="{% static 'images/no-image.png' %}" alt="ไม่มีรูป" class="product-image img-fluid">
+                        {% endif %}
+                    </td>
+                    <td>
+                        <h5 class="product-name">{{ product.name }}</h5>
+                        <small class="text-muted">รหัส: #JKD{{ product.id }}</small>
+                    </td>
+                    <td>
+                        <div class="product-price text-success">฿{{ product.price }}</div>
+                    </td>
+                    <td class="d-flex justify-content-start">
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-outline-primary btn-sm me-2">
+                            <i class="fas fa-cart-plus"></i> เพิ่มเข้าตะกร้า
+                        </a>
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-info-circle"></i> ดูรายละเอียด
+                        </a>
+                    </td>                        
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pagination-container d-flex justify-content-center mt-4">
+            <nav aria-label="หน้าสินค้า">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="empty-state-container text-center mt-5">
+            <div class="empty-state-icon mb-3">
+                <i class="fas fa-box-open fa-3x text-muted"></i>
+            </div>
+            <h3 class="empty-state-title text-muted">ขณะนี้ยังไม่มีสินค้า</h3>
+            <p class="empty-state-description text-muted">สินค้าของเรากำลังอยู่ในระหว่างการเพิ่มเข้าระบบ กรุณาตรวจสอบอีกครั้งในภายหลัง หรือติดต่อเจ้าหน้าที่สำหรับข้อมูลเพิ่มเติม</p>
+            <a href="#" class="btn btn-outline-primary">
+                <i class="fas fa-redo-alt"></i> กลับมาตรวจสอบอีกครั้ง
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+/* เพิ่มการตั้งค่าให้ตัวอักษรอ่านง่ายขึ้น */
+body {
+    font-family: 'Prompt', sans-serif;
+    background-color: #f9fafb; /* สีพื้นหลังที่อ่อน */
+    color: #333; /* ตัวอักษรเข้ม อ่านง่าย */
+    line-height: 1.6;
+}
+
+/* ปรับแต่งชื่อสินค้าให้ดูสะดุดตา */
+.product-name {
+    font-weight: 600;
+    color: #1f2937; /* สีเข้มสำหรับชื่อสินค้า */
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.product-name:hover {
+    color: #2563eb; /* เปลี่ยนสีเมื่อผู้ใช้ hover */
+    transform: scale(1.05);
+}
+
+/* ปรับปรุงการแสดงราคาสินค้า */
+.product-price {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #10b981; /* สีเขียวสำหรับราคาสินค้า */
+    transition: transform 0.3s ease;
+}
+
+.product-price:hover {
+    color: #16a34a; /* เปลี่ยนเป็นสีเขียวเข้มเมื่อ hover */
+    transform: scale(1.1);
+}
+
+/* ปุ่มดูรายละเอียด และ เพิ่มเข้าตะกร้า */
+.btn {
+    font-size: 0.9rem;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background-color: #2563eb; /* ปุ่มสีฟ้าหลัก */
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #1d4ed8; /* ปรับสีเมื่อ hover */
+    transform: translateY(-3px); /* ทำให้ปุ่มเคลื่อนไหวเล็กน้อยเมื่อ hover */
+}
+
+/* การตั้งค่าของตัวกรองเรียงลำดับ */
+.filter-dropdown button {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    color: #6b7280;
+    padding: 8px 15px;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.filter-dropdown button:hover {
+    background-color: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+
+/* การตั้งค่าของตารางสินค้า */
+.table {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+}
+
+.table thead {
+    background-color: #2563eb;
+    color: white;
+}
+
+.table th, .table td {
+    padding: 16px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 0.95rem;
+}
+
+/* ปรับลักษณะการแสดงผลของรูปสินค้า */
+.product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* ปรับปรุงรูปแบบของ Pagination */
+.pagination {
+    margin-top: 30px;
+    justify-content: center;
+    list-style: none;
+}
+
+.page-item .page-link {
+    color: #2563eb;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: 50px;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.page-item .page-link:hover {
+    background-color: #2563eb;
+    color: white;
+}
+
+.page-item.active .page-link {
+    background-color: #1d4ed8;
+    color: white;
+}
+
+</style>
+
+    <!-- Add Product Button -->
+    <a href="#" class="add-product-btn" title="เพิ่มสินค้าใหม่">
+        <i class="fas fa-plus"></i>
+    </a>
+
+   <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-shopping-bag me-2"></i>
+                JKDStore
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p class="copyright">&copy; 2025 JKDStore. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>

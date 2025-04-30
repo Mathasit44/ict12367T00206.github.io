@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>ยืนยันการลบสินค้า</h1>
+    <p>คุณกำลังจะลบสินค้า: <strong>{{ product.name }}</strong></p>
+    <p>ราคาสินค้า: {{ product.price }} บาท</p>
+    <p>คำอธิบายสินค้า: {{ product.description }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">ยืนยันการลบ</button>
+    </form>
+
+    <a href="{% url 'admin_manage_product' %}" class="btn btn-secondary">ยกเลิก</a>
+{% endblock %}

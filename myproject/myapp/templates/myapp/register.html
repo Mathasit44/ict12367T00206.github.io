@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก - DjangoWeb</title>
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Montserrat & Lato -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #4f46e5;
+            --accent-color: #818cf8;
+            --text-color: #1e293b;
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+            --dark-bg: #0f172a;
+        }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6, .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: var(--white);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+        }
+
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            color: var(--text-color) !important;
+            font-weight: 500;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn {
+            border-radius: 8px;
+            padding: 8px 16px;
+            margin-left: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color) !important;
+        }
+
+        .btn-login:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-signup {
+            background-color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            color: var(--white) !important;
+        }
+
+        .btn-signup:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Register Form */
+        .register-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .register-card {
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 520px;
+            position: relative;
+        }
+
+        .register-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 30px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .register-header h2 {
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .register-header p {
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .register-body {
+            padding: 30px;
+        }
+
+        .form-control {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+        }
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #475569;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        .form-check-label {
+            color: #64748b;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .divider span {
+            padding: 0 10px;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .social-register {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background-color: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+        .social-btn i {
+            font-size: 1.25rem;
+            margin-right: 8px;
+        }
+
+        .social-btn.facebook i {
+            color: #1877f2;
+        }
+
+        .social-btn.google i {
+            color: #ea4335;
+        }
+
+        .register-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .register-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .register-footer a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        .password-info {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: -18px;
+            margin-bottom: 20px;
+        }
+
+        .form-floating {
+            margin-bottom: 20px;
+        }
+
+        .form-floating .form-control {
+            margin-bottom: 0;
+        }
+
+        /* Password Strength Indicator */
+        .password-strength {
+            height: 5px;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background-color: #e2e8f0;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-weak {
+            width: 25%;
+            background-color: #ef4444;
+        }
+
+        .strength-medium {
+            width: 50%;
+            background-color: #f59e0b;
+        }
+
+        .strength-good {
+            width: 75%;
+            background-color: #10b981;
+        }
+
+        .strength-strong {
+            width: 100%;
+            background-color: #22c55e;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .navbar-collapse {
+                background-color: var(--white);
+                border-radius: 8px;
+                padding: 15px;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                margin-top: 12px;
+            }
+            
+            .nav-btn {
+                margin: 8px 0;
+                display: block;
+                text-align: center;
+            }
+
+            .register-card {
+                margin: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="">Django<span style="color: var(--accent-color);">Web</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">หน้าหลัก</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">สินค้า</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">เกี่ยวกับเรา</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">ติดต่อ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn btn-login" href="#"><i class="bi bi-box-arrow-in-right me-1"></i> เข้าสู่ระบบ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-btn btn-signup active" href="#"><i class="bi bi-person-plus me-1"></i> สมัครสมาชิก</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Register Form Section -->
+    <div class="register-wrapper">
+        <div class="register-card">
+            <div class="register-header">
+                <h2>สมัครสมาชิก</h2>
+                <p>กรอกข้อมูลด้านล่างเพื่อสร้างบัญชีใหม่</p>
+            </div>
+            <div class="register-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="firstName" placeholder="ชื่อ" required>
+                                <label for="firstName">ชื่อ</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="lastName" placeholder="นามสกุล" required>
+                                <label for="lastName">นามสกุล</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="username" placeholder="ชื่อผู้ใช้" required>
+                        <label for="username">ชื่อผู้ใช้</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="email" placeholder="อีเมล" required>
+                        <label for="email">อีเมล</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="tel" class="form-control" id="phone" placeholder="เบอร์โทรศัพท์">
+                        <label for="phone">เบอร์โทรศัพท์ (ไม่บังคับ)</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="password" placeholder="รหัสผ่าน" required>
+                        <label for="password">รหัสผ่าน</label>
+                    </div>
+                    
+                    <div class="password-strength">
+                        <div class="password-strength-bar strength-medium"></div>
+                    </div>
+                    
+                    <div class="password-info">
+                        <i class="bi bi-info-circle me-1"></i> รหัสผ่านควรมีความยาวอย่างน้อย 8 ตัวอักษร และประกอบด้วยตัวอักษรพิมพ์ใหญ่ พิมพ์เล็ก ตัวเลข และสัญลักษณ์พิเศษ
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="ยืนยันรหัสผ่าน" required>
+                        <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="acceptTerms" required>
+                            <label class="form-check-label" for="acceptTerms">
+                                ฉันยอมรับ <a href="#" class="text-decoration-none">ข้อกำหนดและเงื่อนไข</a> และ <a href="#" class="text-decoration-none">นโยบายความเป็นส่วนตัว</a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" value="" id="newsletter">
+                        <label class="form-check-label" for="newsletter">
+                            ฉันต้องการรับข่าวสาร โปรโมชัน และข้อเสนอพิเศษทางอีเมล
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">สร้างบัญชี <i class="bi bi-check-circle ms-1"></i></button>
+                </form>
+
+                <div class="divider">
+                    <span>หรือสมัครด้วย</span>
+                </div>
+
+                <div class="social-register">
+                    <a href="#" class="social-btn facebook">
+                        <i class="bi bi-facebook"></i> Facebook
+                    </a>
+                    <a href="#" class="social-btn google">
+                        <i class="bi bi-google"></i> Google
+                    </a>
+                </div>
+
+                <div class="register-footer text-center mt-3">
+                    <span>มีบัญชีอยู่แล้ว?</span>
+                    <a href="{% url 'login' %}" class="text-primary fw-bold ms-1">เข้าสู่ระบบ</a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2025 DjangoWeb. สงวนลิขสิทธิ์ทั้งหมด.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript for Password Strength -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const strengthBar = document.querySelector('.password-strength-bar');
+            
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                if (password.length >= 8) strength += 1;
+                if (password.match(/[A-Z]/)) strength += 1;
+                if (password.match(/[0-9]/)) strength += 1;
+                if (password.match(/[^A-Za-z0-9]/)) strength += 1;
+                
+                strengthBar.className = 'password-strength-bar';
+                
+                if (password.length === 0) {
+                    strengthBar.style.width = '0';
+                } else if (strength === 1) {
+                    strengthBar.classList.add('strength-weak');
+                } else if (strength === 2) {
+                    strengthBar.classList.add('strength-medium');
+                } else if (strength === 3) {
+                    strengthBar.classList.add('strength-good');
+                } else if (strength >= 4) {
+                    strengthBar.classList.add('strength-strong');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+    <!-- เชื่อมโยง Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- เพิ่ม Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+       /* ปรับปรุงการตั้งค่าให้เหมาะสม */
+:root {
+    --primary-color: #4e73df;
+    --secondary-color: #f8f9fc;
+    --accent-color: #36b9cc;
+    --text-color: #3a3b45;
+    --light-text: #858796;
+    --bg-color: #e9ecef;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    padding: 3rem 2rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--light-text);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+/* Product Section */
+.product-section {
+    padding: 3rem 0;
+    background-color: var(--secondary-color);
+}
+
+.product-header {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    border-left: 5px solid var(--primary-color);
+    padding-left: 1rem;
+    text-transform: uppercase;
+}
+
+/* Product List */
+.list-group {
+    padding-left: 0;
+}
+
+.list-group-item {
+    border-radius: 0.8rem;
+    margin-bottom: 1rem;
+    border: none;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+}
+
+.list-group-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 0.8rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: var(--light-text);
+    margin-bottom: 1rem;
+}
+
+.empty-state-text {
+    font-size: 1.2rem;
+    color: var(--light-text);
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, #2c3e50, #1a252f);
+    color: white;
+    padding: 3rem 0;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.footer-logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links li {
+    margin: 0 1rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+.social-icons {
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 0 0.5rem;
+    color: white;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icons a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+.copyright {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Utility Classes */
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1140px;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.me-1 {
+    margin-right: 0.25rem;
+}
+
+.me-2 {
+    margin-right: 0.5rem;
+}
+
+.ms-auto {
+    margin-left: auto;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-1 {
+    margin-bottom: 0.25rem;
+}
+
+.px-4 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-lg-8 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width: 992px) {
+    .col-lg-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+}
+
+    </style>
+</head>
+<body><!-- Navbar with Dropdown Menu -->
+  <nav class="navbar navbar-expand-lg zotac-navbar">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <!-- โลโก้หรือข้อความ -->
+            <span class="navbar-brand-text">JKD Store</span>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav main-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'store' %}">ร้านค้า</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">เกี่ยวกับเรา</a>
+                </li>
+            </ul>
+            
+            <ul class="navbar-nav right-menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="">SUPPORT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'store' %}">WHERE TO BUY</a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle language-selector" href="#" role="button" data-bs-toggle="dropdown">
+                        <span>🌐 GLOBAL - TH</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#" onclick="switchLanguage('th')">🇹🇭 ไทย</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="switchLanguage('en')">🇬🇧 English</a></li>
+                    </ul>
+                </li>
+                
+                {% if user.is_authenticated %}
+                <!-- ถ้าผู้ใช้ล็อกอินแล้ว -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        โปรไฟล์
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">ดูโปรไฟล์</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">ออกจากระบบ</a></li>
+                    </ul>
+                </li>
+
+                <!-- ตะกร้าสินค้า -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cart' %}">
+                        🛒 ตะกร้าสินค้า
+                    </a>
+                </li>
+                {% else %}
+                <!-- ถ้าผู้ใช้ยังไม่ได้ล็อกอิน -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        บัญชีของฉัน
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="{% url 'login' %}">เข้าสู่ระบบ</a></li>
+                        <li><a class="dropdown-item" href="{% url 'register' %}">สมัครสมาชิก</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                
+                <li class="nav-item">
+                    <a class="nav-link search-icon" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <style>
+        
+.zotac-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0;
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand {
+            padding: 0 20px;
+            margin-right: 30px;
+        }
+        
+        .navbar-brand img {
+            height: 28px;
+        }
+        
+        .navbar-brand-text {
+            font-family: 'Raleway', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #555;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .main-menu {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .main-menu .nav-item {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .main-menu .nav-link {
+            color: #666;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+            padding: 0 15px !important;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .main-menu .nav-link:hover {
+            color: #000;
+        }
+        
+        .right-menu {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .right-menu .nav-link {
+            color: #777;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 15px !important;
+        }
+        
+        .language-selector {
+            font-family: 'Raleway', sans-serif;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            color: #777;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .search-icon {
+            margin-left: 10px;
+            font-size: 18px;
+            color: #777;
+            cursor: pointer;
+        }
+        
+        .dropdown-menu {
+            border-radius: 0;
+            margin-top: 0;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 10px 0;
+        }
+        
+        .dropdown-item {
+            font-size: 14px;
+            padding: 8px 20px;
+            color: #555;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        @media (max-width: 992px) {
+            .zotac-navbar {
+                height: auto;
+                padding: 15px 0;
+            }
+            
+            .navbar-brand {
+                margin-bottom: 15px;
+            }
+            
+            .main-menu, .right-menu {
+                flex-direction: column;
+                align-items: flex-start;
+                height: auto;
+            }
+            
+            .main-menu .nav-item, .right-menu .nav-item {
+                height: auto;
+                width: 100%;
+            }
+            
+            .main-menu .nav-link, .right-menu .nav-link {
+                padding: 10px 0 !important;
+                height: auto;
+            }
+            
+            .right-menu {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+        }
+    </style>
+
+    
+    
+
+<!-- ฟอนต์ -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  .jkd-product-showcase {
+    font-family: 'Poppins', sans-serif;
+    background: #f1f3f5;
+    padding: 2rem;
+  }
+
+  .jkd-product-showcase .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .jkd-product-showcase .product-card {
+    position: relative;
+    width: 320px;
+    min-height: 300px;
+    padding: 2rem;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .jkd-product-showcase .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
+  .jkd-product-showcase .product-card h3 {
+    font-size: 1.4rem;
+    color: #212529;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .jkd-product-showcase .product-card a {
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .jkd-product-showcase .product-card a:hover {
+    color: #0056b3;
+  }
+
+  .jkd-product-showcase .product-card img {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    width: 140px;
+    transition: transform 0.3s ease;
+  }
+
+  .jkd-product-showcase .product-card:hover img {
+    transform: scale(1.08);
+  }
+
+  .jkd-product-showcase .bg-blue {
+    background: linear-gradient(135deg, #e0f7ff, #b3ecff);
+  }
+
+  .jkd-product-showcase .bg-purple {
+    background: linear-gradient(135deg, #f5e6ff, #dfc2ff);
+  }
+
+  .jkd-product-showcase .bg-cool {
+    background: linear-gradient(135deg, #d7faff, #c0f0ff);
+  }
+
+  @media (max-width: 768px) {
+    .jkd-product-showcase .product-card {
+      width: 90%;
+    }
+  }
+</style>
+
+<!-- Section แสดงสินค้า -->
+<div class="jkd-product-showcase">
+  <div class="product-grid">
+    <div class="product-card bg-blue">
+      <h3>Best on hands<br>accessories</h3>
+      <a href="store.php?category=Mouse">SHOP NOW</a>
+      <img src="https://m.media-amazon.com/images/I/716gdNNrppL.jpg" alt="Mouse">
+    </div>
+
+    <div class="product-card bg-purple">
+      <h3>What you need<br>for your PC</h3>
+      <a href="store.php?category=Headphones">SHOP NOW</a>
+      <img src="https://w7.pngwing.com/pngs/969/417/png-transparent-red-beats-by-dr-dre-wireless-headphones-headphones-beats-electronics-microphone-sound-disc-jockey-headphone-electronics-recording-studio-musician-thumbnail.png" alt="Headphones">
+    </div>
+
+    <div class="product-card bg-cool">
+    <h3>Type with Fun<br>Game with Ease</h3>
+      <a href="store.php?category=Gaming">SHOP NOW</a>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Sakura_Keyboard.png" alt="Keyboard">
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .floating-sidebar {
+    position: fixed;
+    top: 30%;
+    right: -10px; /* ลอยออกมาอีกนิด */
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 5px;
+    border-radius: 12px 0 0 12px;
+    animation: slideInRight 1s ease-out forwards;
+    backdrop-filter: blur(6px);
+  }
+
+  @keyframes slideInRight {
+    to {
+      right: 10px;
+    }
+  }
+
+  .floating-sidebar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(36px, 6vw, 52px);   /* ขนาดย่อ-ขยายอัตโนมัติ */
+  height: clamp(36px, 6vw, 52px);
+  border-radius: 50%;
+  color: white;
+  font-size: clamp(16px, 4vw, 24px);  /* ขนาดฟอนต์ responsive */
+
+  transition: all 0.3s ease;
+  transform: scale(1);
+  position: relative;
+  text-decoration: none;
+}
+
+
+  .floating-sidebar a:hover {
+    transform: scale(1.15) rotate(3deg);
+
+  }
+
+  
+  .chat {
+    background-color: #38bdf8; /* สีฟ้าที่ต้องการ */
+    position: relative; /* เพิ่มตำแหน่งให้ไอคอนขยับได้ */
+  }
+
+  /* เพิ่มการขยับให้โลโก้ */
+  .chat i {
+    animation: bounce 2s infinite ease-in-out; /* การขยับโลโก้ */
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg); /* เริ่มต้นและสิ้นสุดที่ตำแหน่งเดิม */
+    }
+    30% {
+      transform: translateY(-8px) rotate(-10deg); /* ขยับขึ้นและหมุนเล็กน้อย */
+    }
+    50% {
+      transform: translateY(0) rotate(10deg); /* ขยับลงและหมุนไปอีกทาง */
+    }
+    70% {
+      transform: translateY(-8px) rotate(-10deg); /* ขยับขึ้นและหมุนอีกครั้ง */
+    }
+    100% {
+      transform: translateY(0) rotate(0deg); /* กลับไปที่ตำแหน่งเดิม */
+    }
+  }
+
+  .facebook { background-color: #3b5998; }
+  .youtube { background-color: #ff0000; }
+  .email   { background-color: #f26522; }
+  .phone   { background-color: #e53935; }
+  .chat    { background-color: #38bdf8; }
+  .top     { background-color: #999; }
+
+  .floating-sidebar a::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 60px;
+    background: #333;
+    color: white;
+    padding: 5px 8px;
+    font-size: 13px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+
+  .floating-sidebar a:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  
+</style>
+
+<body>
+  <div class="floating-sidebar">
+    <a href="https://facebook.com" class="facebook" data-tooltip="Facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://youtube.com" class="youtube" data-tooltip="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+    <a href="mailto:someone@example.com" class="email" data-tooltip="Email"><i class="fas fa-envelope"></i></a>
+    <a href="tel:0123456789" class="phone" data-tooltip="โทรหาเรา"><i class="fas fa-phone"></i></a>
+    <a href="#chat" class="chat" data-tooltip="Massage Chat"><i class="fas fa-comment-dots"></i></a>
+    <a href="#" class="top" data-tooltip="กลับขึ้นบนสุด" onclick="scrollToTop()"><i class="fas fa-angle-up"></i></a>
+  </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+  
+<!-- 🛍️ Product Icons Section -->
+<section id="product-icons" class="py-5">
+    <div class="container text-center">
+      <h1 class="fw-bold mb-5 display-5"></h1>
+      <div class="row justify-content-center">
+  
+        <!-- 🔹 Product Icon -->
+        <div class="col-md-3 col-6 mb-4">
+          <a href="store.php?category=CPU" class="text-decoration-none">
+            <div class="icon-card">
+              <img src="https://inwfile.com/s-fm/58utvu.png" alt="CPU" class="icon-img" />
+              <h5>CPU</h5>
+              <p>หน่วยประมวลผลกลางของคอมพิวเตอร์</p>
+            </div>
+          </a>
+        </div>
+  
+        <div class="col-md-3 col-6 mb-4">
+          <a href="store.php?category=GPU" class="text-decoration-none">
+            <div class="icon-card">
+              <img src="https://toppng.com/uploads/preview/nvidia-geforce-gtx-1070-ti-11563713407uxhnbzll9q.png" alt="GPU" class="icon-img" />
+              <h5>GPU Card</h5>
+              <p>การ์ดจอสำหรับเล่นเกมและงานกราฟิก</p>
+            </div>
+          </a>
+        </div>
+  
+        <div class="col-md-3 col-6 mb-4">
+          <a href="store.php?category=RAM" class="text-decoration-none">
+            <div class="icon-card">
+              <img src="https://www.kindpng.com/picc/m/719-7197666_transparent-background-png-ram-memory-clip-art-png.png" alt="RAM" class="icon-img" />
+              <h5>RAM</h5>
+              <p>เพิ่มประสิทธิภาพการทำงานของระบบ</p>
+            </div>
+          </a>
+        </div>
+  
+        <div class="col-md-3 col-6 mb-4">
+          <a href="store.php?category=Power Supply" class="text-decoration-none">
+            <div class="icon-card">
+              <img src="https://png.pngtree.com/png-clipart/20231014/original/pngtree-computer-power-supply-electronics-picture-image_13156228.png" alt="PSU" class="icon-img" />
+              <h5>PSU</h5>
+              <p>แหล่งจ่ายไฟคุณภาพสูง</p>
+            </div>
+          </a>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+
+  
+  
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+  
+    #product-icons {
+      background-color: #f8f9fa;
+      padding: 4rem 0;
+    }
+  
+    .icon-card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      padding: 2rem 1.5rem;
+      transition: all 0.3s ease;
+      height: 100%;
+      text-align: center;
+      border: 1px solid #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .icon-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1);
+    }
+  
+    .icon-img {
+      width: 65px;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease;
+    }
+  
+    .icon-card:hover .icon-img {
+      transform: scale(1.05);
+    }
+  
+    .icon-card h5 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 0.3rem;
+    }
+  
+    .icon-card p {
+      font-size: 0.9rem;
+      color: #6c757d;
+      margin-bottom: 0;
+    }
+  
+    /* เพิ่มความสวยเวลาแสดงบนมือถือ */
+    @media (max-width: 768px) {
+      #product-icons {
+        padding: 2rem 1rem;
+      }
+  
+      .icon-card {
+        padding: 1.5rem 1rem;
+        margin-bottom: 1rem; /* เว้นช่องระหว่างการ์ดบนมือถือ */
+      }
+  
+      .icon-img {
+        width: 50px; /* เล็กลงนิดหน่อย */
+        margin-bottom: 0.8rem;
+      }
+  
+      .icon-card h5 {
+        font-size: 1rem;
+      }
+  
+      .icon-card p {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+  
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- Premium Gaming Hero Section with Light Beam Effect -->
+  <section class="gaming-hero-section">
+      <div class="gradient-overlay"></div>
+      <div class="light-beam"></div>
+      <div class="light-beam secondary-beam"></div>
+      <div class="particle-container">
+          <div class="particles"></div>
+      </div>
+      
+      
+      <div class="container">
+          <div class="row align-items-center">
+              <div class="col-lg-6">
+                  <div class="product-showcase">
+                     <!-- ตัวอย่าง -->
+  <img src="https://www.gigabyte.com/FileUpload/Global/KeyFeature/3849/innergigabyte/images/cooling-intro.png" alt="JKD GAMING TRIO GPU" class="product-img" id="gpuImage">
+  <div class="glow-effect" id="glowEffect"></div>
+  
+                  </div>
+              </div>
+              <div class="col-lg-6">
+                  <div class="product-info">
+                  
+                  <h1 class="product-title rainbow-text animated-text">WINDFORCE <span>Gaming OC</span></h1>
+                  
+                  <h2 class="product-tagline fade-in-text animated-text"> GeForce RTX™ 5090 GAMING OC 32G</h2>
+                  <small style="color:#00ffff; font-weight:600;">GIGABYTE GAMING OC SERIES</small>
+                  <p class="product-description fade-in-text animated-text">
+                          กราฟิกการ์ดระดับเรือธงรุ่นล่าสุดจาก NVIDIA ที่มาพร้อมกับหน่วยความจำ GDDR7 ขนาด 32GB ได้รับการออกแบบโดย GIGABYTE ในซีรีส์ GAMING OC ซึ่งเน้นทั้งประสิทธิภาพการประมวลผลกราฟิกที่ทรงพลัง ความเสถียรในการโอเวอร์คล็อก และระบบระบายความร้อน WINDFORCE ที่ได้รับการพัฒนาให้รองรับการใช้งานต่อเนื่องในระดับสูง รองรับเทคโนโลยี Ray Tracing และ DLSS รุ่นล่าสุด เหมาะสำหรับเกมเมอร์ระดับมืออาชีพ ครีเอเตอร์ และผู้ที่ต้องการกราฟิกการ์ดประสิทธิภาพสูงสุด
+                          </p>
+                          
+                      <a href="store.php?category=GPU" class="cta-button glow-button">สั่งซื้อเลย</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  <script>
+      // 3D Rotation on hover using anime.js
+      const productImage = document.getElementById('gpuImage');
+  
+      productImage.addEventListener('mousemove', (e) => {
+          const rect = productImage.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+  
+          anime({
+              targets: productImage,
+              rotateY: x / 20,
+              rotateX: -y / 20,
+              scale: 1.05,
+              duration: 500,
+              easing: 'easeOutQuad'
+          });
+      });
+  
+      productImage.addEventListener('mouseleave', () => {
+          anime({
+              targets: productImage,
+              rotateY: 0,
+              rotateX: 0,
+              scale: 1,
+              duration: 700,
+              easing: 'easeOutElastic(1, .5)'
+          });
+      });
+  
+      // Pulsing glow effect
+      anime({
+          targets: '#glowEffect',
+          scale: [
+              { value: 1, duration: 1000 },
+              { value: 1.2, duration: 1000 }
+          ],
+          opacity: [
+              { value: 0.5, duration: 1000 },
+              { value: 0.9, duration: 1000 }
+          ],
+          easing: 'easeInOutSine',
+          loop: true,
+          direction: 'alternate'
+      });
+  
+      anime({
+      targets: '#gpuImage',
+      translateY: [
+          { value: -15, duration: 2000 },
+          { value: 0, duration: 2000 }
+      ],
+      easing: 'easeInOutSine',
+      loop: true,
+      direction: 'alternate'
+  });
+  
+  function animateOnScroll(targets, animation) {
+          const observer = new IntersectionObserver(entries => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      anime({
+                          targets: entry.target,
+                          ...animation
+                      });
+                      observer.unobserve(entry.target);
+                  }
+              });
+          }, {
+              threshold: 0.3
+          });
+  
+          document.querySelectorAll(targets).forEach(el => observer.observe(el));
+      }
+  
+      // ใช้งาน
+      document.addEventListener("DOMContentLoaded", () => {
+          animateOnScroll('.product-title', {
+              translateY: [50, 0],
+              opacity: [0, 1],
+              duration: 1200,
+              easing: 'easeOutExpo'
+          });
+  
+          animateOnScroll('.product-tagline', {
+              translateY: [50, 0],
+              opacity: [0, 1],
+              delay: 200,
+              duration: 1200,
+              easing: 'easeOutExpo'
+          });
+  
+          animateOnScroll('.product-description', {
+              translateY: [50, 0],
+              opacity: [0, 1],
+              delay: 400,
+              duration: 1200,
+              easing: 'easeOutExpo'
+          });
+  
+          animateOnScroll('.cta-button', {
+              scale: [0.8, 1],
+              opacity: [0, 1],
+              delay: 600,
+              duration: 1000,
+              easing: 'easeOutBack'
+          });
+      });
+      document.addEventListener("DOMContentLoaded", () => {
+          anime({
+              targets: '.animated-text',
+              translateY: [-20, 0],
+              opacity: [0, 1],
+              duration: 1500,
+              delay: anime.stagger(200),
+              easing: 'easeOutElastic(1, .8)'
+          });
+      });
+      window.addEventListener('scroll', () => {
+          const scrollY = window.scrollY;
+          
+          // เลื่อนแสง beam ช้า ๆ
+          document.querySelectorAll('.light-beam').forEach((el, i) => {
+              const speed = i === 0 ? 0.3 : 0.15;
+              el.style.transform = `rotate(30deg) translateY(${scrollY * speed}px)`;
+          });
+  
+          // เลื่อน particles ช้า ๆ
+          const particleContainer = document.querySelector('.particle-container');
+          if (particleContainer) {
+              particleContainer.style.transform = `translateY(${scrollY * 0.1}px)`;
+          }
+      });
+  
+  </script>
+  
+  
+  <!-- CSS Styling -->
+  <style>
+      .gaming-hero-section {
+          position: relative;
+          min-height: 100vh;
+          background-color: #0a0a0a;
+          background-image: linear-gradient(to bottom, #0a0a0a, #1a1a1a);
+          color: white;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          padding: 50px 0;
+      }
+      
+      .gradient-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle at 20% 30%, rgba(0, 150, 255, 0.15), transparent 70%);
+          z-index: 1;
+      }
+      
+      .light-beam {
+          position: absolute;
+          top: -100px;
+          left: -200px;
+          width: 600px;
+          height: 1200px;
+          background: linear-gradient(125deg, rgba(0, 200, 255, 0.2), rgba(255, 255, 255, 0.5), rgba(0, 100, 255, 0.3));
+          transform: rotate(30deg);
+          filter: blur(40px);
+          z-index: 2;
+          animation: beam-glow 8s infinite alternate;
+      }
+      
+      .secondary-beam {
+          left: -300px;
+          width: 400px;
+          background: linear-gradient(125deg, rgba(0, 80, 200, 0.2), rgba(255, 255, 255, 0.3), rgba(0, 255, 255, 0.15));
+          animation-delay: 4s;
+      }
+      
+      @keyframes beam-glow {
+          0% {
+              opacity: 0.7;
+              transform: rotate(30deg) translateY(0);
+          }
+          100% {
+              opacity: 0.9;
+              transform: rotate(30deg) translateY(50px);
+          }
+      }
+      
+      /* Particle effect */
+      .particle-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          z-index: 2;
+      }
+      
+      .particles {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: 
+              radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+              radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+          background-size: 40px 40px, 80px 80px;
+          background-position: 0 0, 20px 20px;
+          animation: particleFloat 20s linear infinite;
+      }
+      
+      @keyframes particleFloat {
+          0% {
+              transform: translateY(0);
+          }
+          100% {
+              transform: translateY(-500px);
+          }
+      }
+      
+      /* Enhanced NVIDIA badge - GIGABYTE style */
+  .nvidia-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 10px 12px;
+      background: rgba(0, 20, 30, 0.6);
+      border: 1px solid rgba(0, 173, 239, 0.5);
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 173, 239, 0.3);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+  }
+  
+  .nvidia-badge:hover {
+      box-shadow: 
+          0 0 20px rgba(0, 174, 239, 0.6),
+          0 0 40px rgba(128, 0, 255, 0.4),
+          0 0 10px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px) scale(1.03);
+  }
+  
+  
+  .nvidia-logo {
+      max-width: 120px;
+      height: auto;
+      margin-bottom: 5px;
+      filter: drop-shadow(0 0 10px rgba(0, 173, 239, 0.5));
+  }
+  
+      
+      .rtx-badge {
+        background: rgba(10, 25, 50, 0.8);
+        border: 1px solid #00ffff;
+          border-radius: 4px;
+          padding: 8px 12px;
+          text-align: right;
+          box-shadow: 0 0 10px rgba(0, 200, 255, 0.3);
+      }
+      
+      .rtx-badge span {
+          display: block;
+          font-weight: 700;
+          color: #76b900;
+          font-size: 0.9rem;
+          letter-spacing: 1px;
+      }
+      
+      .rtx-badge small {
+          display: block;
+          color: #fff;
+          font-size: 0.7rem;
+          opacity: 0.9;
+      }
+      
+      .product-showcase {
+          position: relative;
+          z-index: 5;
+          text-align: center;
+      }
+      
+      .product-img {
+          max-width: 100%;
+          height: auto;
+          filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.5));
+  
+          transform: perspective(1000px) rotateY(-10deg);
+          transition: all 0.7s ease;
+          animation: float 6s ease-in-out infinite;
+      }
+      
+      .product-img:hover {
+          transform: perspective(1000px) rotateY(0deg) scale(1.03);
+      }
+      
+      .glow-effect {
+          position: absolute;
+          bottom: 10%;
+          left: 20%;
+          width: 60%;
+          height: 40px;
+          background: radial-gradient(ellipse at center, rgba(0, 120, 255, 0.7) 0%, transparent 70%);
+          border-radius: 50%;
+          filter: blur(10px);
+          z-index: 4;
+          animation: glowPulse 4s ease-in-out infinite;
+      }
+      
+      @keyframes glowPulse {
+          0%, 100% {
+              opacity: 0.7;
+              transform: scale(1);
+          }
+          50% {
+              opacity: 0.9;
+              transform: scale(1.1);
+          }
+      }
+      
+      @keyframes float {
+          0% {
+              transform: perspective(1000px) rotateY(-10deg) translateY(0px);
+          }
+          50% {
+              transform: perspective(1000px) rotateY(-8deg) translateY(-15px);
+          }
+          100% {
+              transform: perspective(1000px) rotateY(-10deg) translateY(0px);
+          }
+      }
+      
+      .product-info {
+          position: relative;
+          z-index: 5;
+          padding: 20px;
+      }
+      
+      /* Rainbow animated text */
+      .rainbow-text {
+          font-size: 5rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          margin-bottom: 10px;
+          line-height: 1;
+          background: linear-gradient(to right, 
+              #ff0000, #ff7f00, #ffff00, 
+              #00ff00, #0000ff, #4b0082, #8b00ff);
+          background-size: 1000% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+          animation: rainbow 8s linear infinite;
+      }
+      
+      @keyframes rainbow {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 100% 50%; }
+      }
+      
+      .rainbow-text span {
+          display: block;
+          font-size: 0.7em;
+      }
+      
+      /* Fade-in text animation */
+      .fade-in-text {
+          animation: fadeIn 1.5s ease forwards;
+          opacity: 0;
+      }
+      
+      .product-tagline {
+          font-size: 1.8rem;
+          font-weight: 700;
+          letter-spacing: 4px;
+          margin-bottom: 20px;
+          color: #ffffff;
+          animation-delay: 0.3s;
+      }
+      
+      .product-description {
+          font-size: 1.1rem;
+          line-height: 1.6;
+          margin-bottom: 30px;
+          max-width: 600px;
+          animation-delay: 0.6s;
+      }
+      
+      @keyframes fadeIn {
+          from {
+              opacity: 0;
+              transform: translateY(20px);
+          }
+          to {
+              opacity: 0.9;
+              transform: translateY(0);
+          }
+      }
+      
+      /* Enhanced button */
+      .cta-button {
+          display: inline-block;
+          background: linear-gradient(90deg, #007bff, #00ffff);
+          color: white;
+          font-size: 1.2rem;
+          font-weight: 600;
+          padding: 12px 36px;
+          border-radius: 50px;
+          text-decoration: none;
+          box-shadow: 0 8px 25px rgba(0, 150, 255, 0.4);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          z-index: 1;
+      }
+      
+      .cta-button:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          transition: all 0.6s ease;
+          z-index: -1;
+      }
+      
+      .cta-button:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 12px 30px rgba(0, 200, 255, 0.6);
+          color: white;
+      }
+      
+      .cta-button:hover:before {
+          left: 100%;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 992px) {
+          .rainbow-text {
+              font-size: 4rem;
+          }
+          
+          .product-tagline {
+              font-size: 1.5rem;
+          }
+          
+          .product-showcase {
+              margin-bottom: 40px;
+          }
+      }
+      
+      @media (max-width: 768px) {
+          .rainbow-text {
+              font-size: 3rem;
+          }
+          
+          .product-tagline {
+              font-size: 1.2rem;
+          }
+          
+          .nvidia-badge {
+              top: 10px;
+              right: 10px;
+          }
+          
+          .nvidia-logo {
+              max-width: 100px;
+          }
+        }
+  
+      
+  </style>
+  
+  
+
+  <div class="brand-container">
+    <div class="slider">
+      <div class="slide-track">
+        <!-- ใส่โลโก้ซ้ำ 2 รอบเพื่อให้เลื่อนไม่สะดุด -->
+        <div class="slide"><img src="https://www.citypng.com/public/uploads/preview/asus-red-logo-free-png-701751694773667fkh2h9pnkw.png" alt="ASUS" /></div>
+        <div class="slide"><img src="https://1000logos.net/wp-content/uploads/2018/10/MSI-Logo.png" alt="MSI" /></div>
+        <div class="slide"><img src="https://download.logo.wine/logo/Gigabyte_Technology/Gigabyte_Technology-Logo.wine.png" alt="Gigabyte" /></div>
+        <div class="slide"><img src="https://shop.antecindia.in/wp-content/uploads/2024/07/1-1-e1722536893372.png" alt="Antec" /></div>
+        <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Intel-logo-2022.png" alt="Intel" /></div>
+        <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlR2P8SEnAGCgNcAAh0bdJJIHL5j_5arZn_w&s" alt="AMD" /></div>
+        <div class="slide"><img src="data:image/png;base64,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" alt="Samsung" /></div>
+  
+        <!-- ซ้ำรอบ 2 -->
+        <div class="slide"><img src="https://www.citypng.com/public/uploads/preview/asus-red-logo-free-png-701751694773667fkh2h9pnkw.png" alt="ASUS" /></div>
+        <div class="slide"><img src="https://1000logos.net/wp-content/uploads/2018/10/MSI-Logo.png" alt="MSI" /></div>
+        <div class="slide"><img src="https://download.logo.wine/logo/Gigabyte_Technology/Gigabyte_Technology-Logo.wine.png" alt="Gigabyte" /></div>
+        <div class="slide"><img src="https://shop.antecindia.in/wp-content/uploads/2024/07/1-1-e1722536893372.png" alt="Antec" /></div>
+        <div class="slide"><img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Intel-logo-2022.png" alt="Intel" /></div>
+        <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlR2P8SEnAGCgNcAAh0bdJJIHL5j_5arZn_w&s" alt="AMD" /></div>
+        <div class="slide"><img src="data:image/png;base64,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" alt="Samsung" /></div>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+  .brand-container {
+    max-width: 100%;
+    overflow: hidden;
+    padding: 40px 0;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+  
+  .slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .slide-track {
+    display: flex;
+    width: calc(250px * 14); /* 7 โลโก้ × 2 รอบ */
+    animation: scroll 40s linear infinite;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  .slide {
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 15px;
+  }
+  
+  .slide img {
+    width: 120px;
+    height: auto;
+    filter: grayscale(100%);
+    opacity: 0.8;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .slide img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+  
+  @media (max-width: 768px) {
+    .slide {
+      width: 180px;
+    }
+    .slide img {
+      width: 80px;
+    }
+  }
+  </style>
+  
+  
+<style>
+    #chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+  
+    #chatbot-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #4a90e2;  /* เปลี่ยนเป็นสีฟ้า */
+      color: white;
+      border: none;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+  
+    #chatbot-toggle:hover {
+      transform: scale(1.1);
+      background-color: #357ab7;  /* เปลี่ยนเป็นสีฟ้าเข้ม */
+    }
+  
+    #chatbot-content {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      width: 280px;
+      background-color: #ffffff;  /* ขาว */
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      font-family: 'Arial', sans-serif;
+    }
+  
+    .chat-question {
+      padding: 10px;
+      background-color: #f1f1f1;  /* สีพื้นหลังคำถาม */
+      margin-bottom: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+  
+    .chat-question:hover {  
+      background-color: #d8d8d8;  /* เปลี่ยนสีเมื่อ hover */
+    }
+  
+    #chat-answer {
+      font-size: 14px;
+      padding-top: 10px;
+      color: #333;  /* สีของข้อความตอบ */
+    }
+  
+    #chatbot-toggle-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  #chatbot-new {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff3b3b;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    animation: pulse 1.2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  
+  </style>
+  
+  
+  <div id="chatbot">
+    <div id="chatbot-toggle-wrapper">
+      <button id="chatbot-toggle" onclick="toggleChat()">🗨️</button>
+      <div id="chatbot-new">ใหม่</div> <!-- Bubble NEW -->
+    </div>
+    <div id="chatbot-content">
+      <h6>💬 สอบถามข้อมูล</h6>
+      <div class="chat-question" onclick="showAnswer('วิธีลงทะเบียนประกัน?')">วิธีลงทะเบียนประกัน?</div>
+      <div class="chat-question" onclick="showAnswer('ตรวจสอบประกันทำยังไง?')">ตรวจสอบประกันทำยังไง?</div>
+      <div class="chat-question" onclick="showAnswer('ระยะเวลารับประกันคือ?')">ระยะเวลารับประกันคือ?</div>
+      <input type="text" class="form-control mt-2" id="custom-question" placeholder="พิมพ์คำถามของคุณ...">
+      <button class="btn btn-sm btn-dark mt-2 w-100" onclick="customQuestion()">ถามบอท</button>
+      <div id="chat-answer" class="mt-3 text-secondary"></div>
+    </div>
+  </div>
+  
+  <script>
+    function toggleChat() {
+      const content = document.getElementById("chatbot-content");
+      content.style.display = content.style.display === "none" ? "block" : "none";
+    }
+  
+    function showAnswer(question) {
+      const answerBox = document.getElementById("chat-answer");
+      // ตัวอย่างคำตอบพื้นฐาน
+      let answer = "";
+      if (question === "วิธีลงทะเบียนประกัน?") {
+        answer = "คุณสามารถลงทะเบียนได้ผ่านเว็บไซต์ของเรา โดยกรอกหมายเลขสินค้าและวันที่ซื้อ.";
+      } else if (question === "ตรวจสอบประกันทำยังไง?") {
+        answer = "กรอกหมายเลขสินค้าในหน้าตรวจสอบประกัน เพื่อดูสถานะของคุณ.";
+      } else if (question === "ระยะเวลารับประกันคือ?") {
+        answer = "ระยะเวลารับประกันปกติคือ 6 เดือนถึง 1 ปี ขึ้นอยู่กับประเภทสินค้า.";
+      }
+      answerBox.innerText = answer;
+    }
+  
+    function customQuestion() {
+      const input = document.getElementById("custom-question").value.trim();
+      const answerBox = document.getElementById("chat-answer");
+      if (input) {
+        answerBox.innerText = "❓ คำถามของคุณ: " + input + "\n\n🤖 ขอโทษครับ ตอนนี้ระบบยังไม่สามารถตอบคำถามนี้ได้โดยตรง กรุณาติดต่อเจ้าหน้าที่.";
+      }
+    }
+  </script>
+  
+  
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-shopping-bag me-2"></i>
+                JKDStore
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p class="copyright">&copy; JKDStore.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap 5 JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

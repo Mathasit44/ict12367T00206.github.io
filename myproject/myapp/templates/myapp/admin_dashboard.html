@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKD Store Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --primary-light: #34495e;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --text-light: #7f8c8d;
+            --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
+            --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15);
+            --shadow-lg: 0 1rem 3rem rgba(0,0,0,.175);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: #f5f8fa;
+            font-family: 'Prompt', sans-serif;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header & Navigation */
+        .admin-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            padding: 1rem 0;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-brand-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .brand-icon {
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .user-info {
+            line-height: 1.2;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin: 0;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 0;
+        }
+        
+        .welcome-banner {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .welcome-banner h2 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            font-size: 2rem;
+        }
+        
+        .welcome-banner p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            max-width: 80%;
+        }
+        
+        .stats-container {
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid var(--secondary);
+            transition: var(--transition);
+            height: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .stat-icon {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        
+        .stat-content h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--dark);
+        }
+        
+        .stat-content p {
+            color: var(--text-light);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Action Cards */
+        .action-cards {
+            margin-bottom: 2rem;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: var(--transition);
+            height: 100%;
+            position: relative;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .action-card-header {
+            height: 120px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .action-icon {
+            background-color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--secondary);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .action-card-body {
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+        
+        .action-card-body h3 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .action-description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .btn-action {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 500;
+            padding: 0.75rem 2rem;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-action:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            color: white;
+        }
+        
+        .btn-action i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary);
+            border-radius: 3px;
+        }
+        
+        .btn-quick-action {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--secondary);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem;
+            width: 100%;
+            text-align: center;
+            transition: var(--transition);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-quick-action:hover {
+            background-color: var(--secondary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .btn-quick-action i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        /* Footer */
+        .admin-footer {
+            background-color: white;
+            padding: 1.5rem 0;
+            margin-top: auto;
+            border-top: 1px solid #e1e5eb;
+        }
+        
+        .copyright {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .welcome-banner p {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .welcome-banner {
+                padding: 1.5rem;
+            }
+            
+            .welcome-banner h2 {
+                font-size: 1.75rem;
+            }
+            
+            .stat-card, .action-card {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a class="navbar-brand" href="#">
+                    <div class="navbar-brand-text">
+                        <span class="brand-icon">
+                            <i class="fas fa-store"></i>
+                        </span>
+                        JKD Store Admin
+                    </div>
+                </a>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        A
+                    </div>
+                    <div class="user-info">
+                        <p class="user-name">แอดมิน</p>
+                        <p class="user-role">ผู้ดูแลระบบ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <h2>ยินดีต้อนรับสู่หน้าแดชบอร์ด</h2>
+                <p>คุณสามารถจัดการสินค้า ตรวจสอบคำสั่งซื้อ และดูรายงานต่างๆ ได้จากหน้านี้</p>
+            </div>
+            
+       <!-- Stats Row -->
+<div class="stats-container">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="product-count">Loading...</h3> <!-- กำหนด id ให้กับ h3 -->
+                    <p>สินค้าทั้งหมด</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Error</h3>
+                    <p>คำสั่งซื้อวันนี้</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="user-count">Loading...</h3> <!-- แสดงข้อความ Loading จนกว่าจะดึงข้อมูลเสร็จ -->
+                    <p>ลูกค้าทั้งหมด</p>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function() {
+        // ดึงข้อมูลจำนวนสินค้า
+        fetch('/get-product-count/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('product-count').textContent = data.product_count;
+            })
+            .catch(error => {
+                console.log('Error fetching product count:', error);
+                document.getElementById('product-count').textContent = "Error loading product count";
+            });
+
+        // ดึงข้อมูลจำนวนผู้ใช้
+        fetch('/get-user-count/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('user-count').textContent = data.user_count;
+            })
+            .catch(error => {
+                console.log('Error fetching user count:', error);
+                document.getElementById('user-count').textContent = "Error loading user count";
+            });
+    }
+</script>
+
+
+
+            <!-- Action Cards -->
+            <div class="action-cards">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="action-card">
+                            <div class="action-card-header">
+                                <div class="action-icon">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                            </div>
+                            <div class="action-card-body">
+                                <h3>เพิ่มสินค้าใหม่</h3>
+                                <p class="action-description">เพิ่มรายการสินค้าใหม่เข้าสู่ระบบพร้อมรายละเอียดและรูปภาพ</p>
+                                <a href="{% url 'admin_add_product' %}" class="btn btn-action">
+                                    <i class="fas fa-arrow-right"></i>เพิ่มสินค้า
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="action-card">
+                            <div class="action-card-header">
+                                <div class="action-icon">
+                                    <i class="fas fa-list"></i>
+                                </div>
+                            </div>
+                            <div class="action-card-body">
+                                <h3>จัดการสินค้า</h3>
+                                <p class="action-description">แก้ไขรายละเอียด ปรับปรุงราคา หรือลบสินค้าที่มีอยู่</p>
+                                <a href="{% url 'admin_manage_product' %}" class="btn btn-action">
+                                    <i class="fas fa-arrow-right"></i> จัดการสินค้า
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="action-card">
+                            <div class="action-card-header">
+                                <div class="action-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                            </div>
+                            <div class="action-card-body">
+                                <h3>รายงานการขาย</h3>
+                                <p class="action-description">ดูรายงานสรุปยอดขาย สินค้ายอดนิยม และข้อมูลลูกค้า</p>
+                                <a href="#" class="btn btn-action">
+                                    <i class="fas fa-arrow-right"></i>ดูรายงาน
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+           <!-- Quick Actions -->
+<div class="quick-actions">
+    <h3 class="section-title">การดำเนินการด่วน</h3>
+    <div class="row">
+        <!-- จัดการหมวดหมู่ -->
+        <div class="col-md-3 col-6">
+            <button class="btn-quick-action">
+                <i class="fas fa-tags"></i>
+                จัดการหมวดหมู่
+            </button>
+        </div>
+        
+        <!-- จัดการการจัดส่ง -->
+        <div class="col-md-3 col-6">
+            <button class="btn-quick-action">
+                <i class="fas fa-truck"></i>
+                จัดการการจัดส่ง
+            </button>
+        </div>
+        
+        <!-- ตั้งค่าระบบ (เปิด Modal Popup) -->
+        <div class="col-md-3 col-6">
+            <button class="btn-quick-action" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                <i class="fas fa-cog"></i>
+                ตั้งค่าระบบ
+            </button>
+        </div>
+
+        <!-- ช่วยเหลือ -->
+        <div class="col-md-3 col-6">
+            <button class="btn-quick-action">
+                <i class="fas fa-life-ring"></i>
+                ช่วยเหลือ
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Popup สำหรับการตั้งค่า -->
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settingsModalLabel">ตั้งค่าระบบ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- เนื้อหาการตั้งค่าต่างๆ ที่คุณต้องการใส่ -->
+                <form>
+                    <div class="mb-3">
+                        <label for="setting-option" class="form-label">เลือกการตั้งค่า</label>
+                        <select class="form-select" id="setting-option" aria-label="Setting options">
+                            <option selected>เลือกการตั้งค่า...</option>
+                            <option value="1">ตัวเลือกที่ 1</option>
+                            <option value="2">ตัวเลือกที่ 2</option>
+                            <option value="3">ตัวเลือกที่ 3</option>
+                        </select>
+                    </div>
+                    <!-- เพิ่มฟอร์มตั้งค่าเพิ่มเติมถ้าต้องการ -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                <button type="button" class="btn btn-primary">บันทึกการตั้งค่า</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</script>
+    
+    <!-- Footer -->
+    <footer class="admin-footer">
+        <div class="container">
+            <p class="copyright text-center">
+                &copy; 2025 JKD Store Admin System. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

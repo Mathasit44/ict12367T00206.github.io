@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การชำระเงิน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .list-group-item {
+            border: none;
+            background-color: #f8fafc;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .list-group-item span {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .mt-4 h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+        }
+
+        .empty-cart {
+            font-size: 1.2rem;
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .success-message {
+            font-size: 1.5rem;
+            color: #2ecc71;
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>การชำระเงิน</h1>
+        {% if success_checkout %}
+            <div class="success-message">
+                <h3>การชำระเงินสำเร็จ</h3>
+                <p>ขอบคุณที่ทำการชำระเงิน สินค้าของคุณจะถูกจัดส่งในเร็วๆ นี้</p>
+            </div>
+        {% else %}
+            <h3>รายละเอียดการสั่งซื้อ</h3>
+            {% if cart_items %}
+                <div class="list-group">
+                    {% for item in cart_items %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>{{ item.product.name }} (฿{{ item.product.price }})</span>
+                                <span>จำนวน: {{ item.quantity }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="mt-4">
+                    <h4>ยอดรวม: ฿{{ total_price }}</h4>
+                    <!-- ปุ่มชำระเงิน -->
+                    <form action="{% url 'checkout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">ชำระเงิน</button>
+                    </form>
+                </div>
+            {% else %}
+                <p class="empty-cart">ตะกร้าของคุณว่างเปล่า</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
